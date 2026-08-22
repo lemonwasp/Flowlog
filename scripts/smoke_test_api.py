@@ -13,12 +13,9 @@ BASE_URL = "http://127.0.0.1:8000"
 REQUEST_TIMEOUT_SECONDS = 5
 
 
-def check_response(response):
-    """Print the status code and response body for smoke-test visibility."""
-    try:
-        print(response.status_code, response.json())
-    except requests.exceptions.JSONDecodeError:
-        print(f"Response parsing failed: {response.status_code} {response.text}")
+def check_response(method, path, response):
+    """Print request identity and status without exposing response bodies."""
+    print(f"{method} {path} -> {response.status_code}")
 
 
 def request(method, path, **kwargs):
@@ -34,7 +31,7 @@ def request(method, path, **kwargs):
     except requests.RequestException as exc:
         raise RuntimeError(f"{method} {path} request failed: {exc}") from exc
 
-    check_response(response)
+    check_response(method, path, response)
     if not 200 <= response.status_code < 300:
         raise RuntimeError(f"{method} {path} failed with status {response.status_code}")
 
