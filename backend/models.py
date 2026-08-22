@@ -23,7 +23,7 @@ class Emotion(Base):
     emotion = Column(String, index=True)
     emotion_score = Column(Float)
     emotion_keywords = Column(String)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=datetime.now)
 
 
 class ActivityType(Base):
@@ -40,7 +40,7 @@ class Activity(Base):
     user_id = Column(Uuid(as_uuid=True), ForeignKey("users.id"))
     activity_type_id = Column(Uuid(as_uuid=True), ForeignKey("activity_types.id"))
     description = Column(String)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=datetime.now)
 
 
 class FlowCurve(Base):
@@ -50,4 +50,4 @@ class FlowCurve(Base):
     user_id = Column(Uuid(as_uuid=True), ForeignKey("users.id"))
     time_spent = Column(Float)
     satisfaction = Column(Float)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=datetime.now)
