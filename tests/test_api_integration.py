@@ -24,7 +24,7 @@ def test_root_identifies_flowlog_api():
     response = client.get("/")
 
     assert response.status_code == 200
-    assert response.json() == {"message": "Flowlog API"}
+    assert response.json() == {"message": "Flowlog API with Supabase & SQLAlchemy"}
 
 
 def test_user_creation_and_listing_round_trip():
