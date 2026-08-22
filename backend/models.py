@@ -1,10 +1,14 @@
 import uuid
-from datetime import datetime
+from datetime import UTC, datetime
 
 from sqlalchemy import Column, DateTime, Float, ForeignKey, String, Uuid
 from sqlalchemy.orm import declarative_base
 
 Base = declarative_base()
+
+
+def utc_now_naive():
+    return datetime.now(UTC).replace(tzinfo=None)
 
 
 class User(Base):
@@ -23,7 +27,7 @@ class Emotion(Base):
     emotion = Column(String, index=True)
     emotion_score = Column(Float)
     emotion_keywords = Column(String)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=utc_now_naive)
 
 
 class ActivityType(Base):
@@ -40,7 +44,7 @@ class Activity(Base):
     user_id = Column(Uuid(as_uuid=True), ForeignKey("users.id"))
     activity_type_id = Column(Uuid(as_uuid=True), ForeignKey("activity_types.id"))
     description = Column(String)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=utc_now_naive)
 
 
 class FlowCurve(Base):
@@ -50,4 +54,4 @@ class FlowCurve(Base):
     user_id = Column(Uuid(as_uuid=True), ForeignKey("users.id"))
     time_spent = Column(Float)
     satisfaction = Column(Float)
-    created_at = Column(DateTime, default=datetime.utcnow)
+    created_at = Column(DateTime, default=utc_now_naive)
