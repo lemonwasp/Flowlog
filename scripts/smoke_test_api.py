@@ -14,6 +14,7 @@ REQUEST_TIMEOUT_SECONDS = 5
 
 
 def check_response(response):
+    """Print the status code and response body for smoke-test visibility."""
     try:
         print(response.status_code, response.json())
     except requests.exceptions.JSONDecodeError:
@@ -21,25 +22,28 @@ def check_response(response):
 
 
 def request(method, path, **kwargs):
+    """Send one API request and fail fast on transport or non-2xx errors."""
     try:
         response = requests.request(
             method,
             f"{BASE_URL}{path}",
             timeout=REQUEST_TIMEOUT_SECONDS,
+            allow_redirects=False,
             **kwargs,
         )
     except requests.RequestException as exc:
         raise RuntimeError(f"{method} {path} request failed: {exc}") from exc
 
     check_response(response)
-    if not response.ok:
+    if not 200 <= response.status_code < 300:
         raise RuntimeError(f"{method} {path} failed with status {response.status_code}")
 
     return response
 
 
 def main():
-    run_id = uuid.uuid4().hex[:8]
+    """Run the Flowlog smoke-test workflow with unique data for this execution."""
+    run_id = uuid.uuid4().hex
 
     response = request(
         "POST",
