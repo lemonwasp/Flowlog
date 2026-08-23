@@ -50,7 +50,7 @@ SQLAlchemy models / sessions
 SQLite or PostgreSQL / Supabase
 ```
 
-FastAPI routes validate request data and obtain a database session through dependency injection. Database access is kept in `backend/crud.py`, while SQLAlchemy models define the persisted entities. Free-text emotion records pass through the current emotion-processing helper before they are stored.
+FastAPI routes validate request data and obtain a database session through dependency injection. CRUD persistence operations are kept in `backend/crud.py`; `backend/main.py` provides the request-scoped database session, while SQLAlchemy models define the persisted entities. Free-text emotion records pass through the current emotion-processing helper before they are stored.
 
 ## Current status
 
